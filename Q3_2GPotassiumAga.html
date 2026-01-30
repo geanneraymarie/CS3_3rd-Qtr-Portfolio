@@ -1,164 +1,142 @@
 <!DOCTYPE html>
-<html lang = "en">
-    <head>
-        <meta charset = "UTF-8">
-        <meta name = "viewport" content = "width=device-width, initial-scale=1">
-        <title> Q3 Second Graded </title>
-        
-        <meta name = "description" content="Q32GPotassiumAga">
-        <meta name = "author" content = "Aga, Geanne">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Registration Form</title>
 
-    <style>
-        body 
-        {
-            font-family:Georgia, 'Times New Roman', Times, serif;
-            background-color: #ffeca1;
-            font-size: 15px;
-        }
+<style>
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #000000;
+        font-size: 15px;
+    }
+    form {
+        width: 450px;
+        margin: 20px auto;
+        background: rgb(255, 255, 255);
+        padding: 20px;
+        border-radius: 8px;
+        color: #000000;
+        border: 5px solid #000000;
 
-        form 
-        {
-            width: 450px;
-            margin: 20px auto;
-            background: rgb(127, 89, 158);
-            padding: 20px;
-            border-radius: 8px;
-            color: rgb(255, 255, 255);
-            border: 3px solid #2d0d4f;
-        }
+    }
+    fieldset { margin-bottom: 15px; border: 1px solid #aaa; padding: 15px; }
+    legend { font-weight: bold; font-size: 25px; }
+    label { display: block; margin-top: 20px; }
+    input, select, textarea { width: 97%; padding: 6px; margin-top: 5px; }
+    input:focus, select:focus, textarea:focus { background-color: #c3d9ff; }
+    .error { border: 2px solid red; background-color: #ffe6e6; }
+    .radio-group { display: flex; align-items: center; gap: 15px; }
+    .radio-group div label { display: inline-block; margin-right: 10px; }
+</style>
 
-        fieldset 
-        {
-            margin-bottom: 15px;
-            border: 1px solid #aaa;
-            padding: 15px;
+<script>
+    function checkEmpty(field) {
+        if (field.value.trim() === "") {
+            field.classList.add("error");
+        } else {
+            field.classList.remove("error");
         }
+    }
 
-        legend 
-        {
-            font-weight: bold;
-            font-size: 25px;
-        }
+    function saveSignUp(event) {
+        event.preventDefault();
 
-        label 
-        {
-            display: block;
-            margin-top: 20px;
-        }
+        if (!confirm("Are you sure you want to submit this application?")) return;
 
-        input, select, textarea 
-        {
-            width: 97%;
-            padding: 6px;
-            margin-top: 5px;
-        }
+        const form = event.target;
 
-        input:focus, select:focus, textarea:focus 
-        {
-            background-color: #c3d9ff;
-        }
+        const signUp = {
+            studentId: form.studentid.value.trim(),
+            fullName: form.fullname.value.trim(),
+            birthday: form.birthday.value,
+            email: form.emailaddress.value.trim(),
+            mobile: form.mobile.value.trim(),
+            gradeLevel: form.gradelevel.value,
+            residence: form.residence.value,
+            clubPreference: form.clubpreference.value,
+            reason: form.reason.value.trim()
+        };
 
-        .error 
-        {
-            border: 2px solid red;
-            background-color: #ffe6e6;
-        }
+        let signUps = JSON.parse(localStorage.getItem('signUps')) || [];
 
-        .radio-group 
-        {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        }
+        signUps.push(signUp);
 
-        .radio-group div label 
-        {
-        display: inline-block;
-        margin-right: 10px;
-        }
+        localStorage.setItem('signUps', JSON.stringify(signUps));
 
-    </style>
-    <script>
-        function confirmSubmit()
-        {
-            return confirm("Are you sure you want to submit this application?");
+        alert("Sign-up saved!");
+        form.reset();
+    }
+
+    function confirmReset(event) {
+        if (!confirm("Are you sure you want to reset the form?")) {
+            event.preventDefault();
         }
-        function confirmReset()
-        {
-            return confirm("Are you sure you want to reset the form?");
-        }
-        function checkEmpty(field)
-        {
-            if (field.value.trim() === "")
-            {
-                field.classList.add("error");
-                field.classList.add("error");    
-            }
-            else
-            {
-                field.classList.remove("error");
-            }
-        }
-    </script>
-    </head>
-    <body>
-        <form method="post" action="submit" onsubmit="return confirmSubmit()" onreset="return confirmReset()">
-            <legend> Student Registration Form </legend>
-            <label>
-                Student ID:
-                <input type="number" name="studentid" required onblur="checkEmpty(this)">
-            </label>
-            <label>
-                Full Name:
-                <input type="text" name="fullname" required onblur="checkEmpty(this)">
-            </label>
-            <label>
-                Birthday:
-                <input type="date" name="birthday" required onblur="checkEmpty(this)">
-            </label>
-            <label>
-                Email Address:
-                <input type="email" name="emailaddress" required onblur="checkEmpty(this)">
-            </label>
-            <label>
-                Mobile Phone:
-                <input type="text" name="mobile" required onblur="checkEmpty(this)">
-            </label>
-            <label>
-                Grade Level:
-                <select name="gradelevel" required>
-                    <option value="">Select</option>
-                    <option value="grade7">Grade 7</option>
-                    <option value="grade8">Grade 8</option>
-                    <option value="grade9">Grade 9</option>
-                    <option value="grade10">Grade 10</option>
-                </select>
-            </label>
-            <div class="radio-group">
+    }
+
+    function signups() {
+        window.location.href = "signups.html";
+    }
+</script>
+</head>
+
+<body>
+<form id="signupForm" onsubmit="saveSignUp(event)" onreset="confirmReset(event)">
+    <fieldset>
+        <legend>Student Registration Form</legend>
+
+        <label>Student ID:
+            <input type="number" name="studentid" required onblur="checkEmpty(this)">
+        </label>
+        <label>Full Name:
+            <input type="text" name="fullname" required onblur="checkEmpty(this)">
+        </label>
+        <label>Birthday:
+            <input type="date" name="birthday" required onblur="checkEmpty(this)">
+        </label>
+        <label>Email Address:
+            <input type="email" name="emailaddress" required onblur="checkEmpty(this)">
+        </label>
+        <label>Mobile Phone:
+            <input type="text" name="mobile" required onblur="checkEmpty(this)">
+        </label>
+        <label>Grade Level:
+            <select name="gradelevel" required>
+                <option value="">Select</option>
+                <option value="grade7">Grade 7</option>
+                <option value="grade8">Grade 8</option>
+                <option value="grade9">Grade 9</option>
+                <option value="grade10">Grade 10</option>
+            </select>
+        </label>
+
+        <div class="radio-group">
             <label>Intern/Extern:</label>
             <div>
                 <label><input type="radio" name="residence" value="intern" required> Intern</label>
                 <label><input type="radio" name="residence" value="extern"> Extern</label>
             </div>
-            </div>
+        </div>
 
-            <label>
-                Club Preference:
-                <select name="clubpreference" required>
-                    <option value="">Select</option>
-                    <option value="club1">Photography Club</option>
-                    <option value="club2">Literature Club</option>
-                    <option value="club3">Theatre Club</option>
-                    <option value="club4">Mystery Club</option>
-                    <option value="club5">Art Club</option>
-                </select>
-            </label>
-            <label>
-                Why do you want to join?
-                <textarea name="reason" rows="4" cols="50" required onblur="checkEmpty(this)"></textarea>
-            </label>
-            <input type="submit" value="Submit">
-            <input type="reset" value="Reset">
-        </form>
-    </body>
+        <label>Club Preference:
+            <select name="clubpreference" required>
+                <option value="">Select</option>
+                <option value="Photography Club">Photography Club</option>
+                <option value="Literature Club">Literature Club</option>
+                <option value="Theatre Club">Theatre Club</option>
+                <option value="Mystery Club">Mystery Club</option>
+                <option value="Art Club">Art Club</option>
+            </select>
+        </label>
+        <label>Why do you want to join?
+            <textarea name="reason" rows="4" required onblur="checkEmpty(this)"></textarea>
+        </label>
+
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
+        <input type="button" value="View Sign-ups" onclick="signups()">
+    </fieldset>
+</form>
+</body>
 </html>

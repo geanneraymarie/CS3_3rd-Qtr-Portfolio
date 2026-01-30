@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3rd Graded Exercise</title>
+
+<style>
+    body {
+        font-family:'Courier New', Courier, monospace;
+        background-color: #383838;
+        font-size: 15px;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #ffffff;
+    }
+    select {
+        padding: 5px;
+        margin-bottom: 15px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    th, td {
+        border: 1px solid #101752;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #ffffff;
+        color: #000000;
+    }
+    tr:nth-child(even) { background-color: #ffffff; color:#000000}
+    tr:nth-child(odd) { background-color: #000000; color:#ffffff}
+    .total {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    .message {
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+        margin-top: 20px;
+    }
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: bold;
+        border: 1px solid #000000;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #000000;
+    }
+    label {
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .total {
+        color: #ffffff;
+    }
+</style>
+
+<script>
+    let allSignUps = [];
+
+    function loadSignUps() {
+        allSignUps = JSON.parse(localStorage.getItem('signUps')) || [];
+
+        const clubSelect = document.getElementById('clubFilter');
+        const clubs = ["ALL", "Photography Club", "Literature Club", "Theatre Club", "Mystery Club", "Art Club"];
+
+        clubSelect.innerHTML = '';
+        clubs.forEach(club => {
+            const option = document.createElement('option');
+            option.value = club;
+            option.textContent = club;
+            clubSelect.appendChild(option);
+        });
+
+        displaySignUps('ALL');
+    }
+
+    function displaySignUps(selectedClub) {
+        const tableBody = document.getElementById('signUpTableBody');
+        const totalDiv = document.getElementById('totalSignUps');
+        const messageDiv = document.getElementById('message');
+
+        tableBody.innerHTML = '';
+        messageDiv.textContent = '';
+
+        let filteredSignUps = allSignUps;
+
+        if (selectedClub !== 'ALL') {
+            filteredSignUps = allSignUps.filter(signUp => signUp.clubPreference === selectedClub);
+        }
+
+        if (filteredSignUps.length === 0) {
+            messageDiv.textContent = selectedClub === 'ALL' ? "No sign-ups available." : `No sign-ups for ${selectedClub}.`;
+            totalDiv.textContent = "Total Sign-ups: 0";
+            return;
+        }
+
+        filteredSignUps.forEach(signUp => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${signUp.studentId}</td>
+                <td>${signUp.fullName}</td>
+                <td>${signUp.birthday}</td>
+                <td>${signUp.email}</td>
+                <td>${signUp.mobile}</td>
+                <td>${signUp.gradeLevel}</td>
+                <td>${signUp.residence}</td>
+                <td>${signUp.clubPreference}</td>
+                <td>${signUp.reason}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        totalDiv.textContent = `Total Sign-ups: ${filteredSignUps.length}`;
+    }
+</script>
+</head>
+
+<body onload="loadSignUps()">
+<h1>Student Club Sign-ups</h1>
+
+<label for="clubFilter">Filter by Club:</label>
+<select id="clubFilter" onchange="displaySignUps(this.value)">
+</select>
+
+<div class="message" id="message"></div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Full Name</th>
+            <th>Birthday</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Grade Level</th>
+            <th>Intern/Extern</th>
+            <th>Club Preference</th>
+            <th>Reason</th>
+        </tr>
+    </thead>
+    <tbody id="signUpTableBody">
+    </tbody>
+</table>
+
+<div class="total" id="totalSignUps">Total Sign-ups: 0</div>
+
+<a href="Q3_2GPotassiumAga.html">Back to Sign-Up Page</a>
+</body>
+</html>
