@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Student Registration Form</title>
 
+<<<<<<< HEAD
 <style>
     body {
         font-family: 'Courier New', Courier, monospace;
@@ -30,6 +31,26 @@
     .radio-group { display: flex; align-items: center; gap: 15px; }
     .radio-group div label { display: inline-block; margin-right: 10px; }
 </style>
+=======
+    <style>
+        body 
+        {
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            background-color: #000000;
+            font-size: 15px;
+        }
+
+        form 
+        {
+            width: 450px;
+            margin: 20px auto;
+            background: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 8px;
+            color: rgb(0, 0, 0);
+            border: 3px solid #acacac;
+        }
+>>>>>>> 35a80db9863a89c5738a0624bb821c99416910b6
 
 <script>
     function checkEmpty(field) {
@@ -73,6 +94,7 @@
         if (!confirm("Are you sure you want to reset the form?")) {
             event.preventDefault();
         }
+<<<<<<< HEAD
     }
 
     function signups() {
@@ -112,6 +134,60 @@
         </label>
 
         <div class="radio-group">
+=======
+        function confirmReset()
+        {
+            return confirm("Are you sure you want to reset the form?");
+        }
+        function checkEmpty(field)
+        {
+            if (field.value.trim() === "")
+            {
+                field.classList.add("error");
+                field.classList.add("error");    
+            }
+            else
+            {
+                field.classList.remove("error");
+            }
+        }
+    </script>
+    </head>
+    <body>
+        <form id="studentform" action="submit" onsubmit="return confirmSubmit()" onreset="return confirmReset()">
+            <legend> Student Registration Form </legend>
+            <label>
+                Student ID:
+                <input type="number" name="studentid" required onblur="checkEmpty(this)">
+            </label>
+            <label>
+                Full Name:
+                <input type="text" name="fullname" required onblur="checkEmpty(this)">
+            </label>
+            <label>
+                Birthday:
+                <input type="date" name="birthday" required onblur="checkEmpty(this)">
+            </label>
+            <label>
+                Email Address:
+                <input type="email" name="emailaddress" required onblur="checkEmpty(this)">
+            </label>
+            <label>
+                Mobile Phone:
+                <input type="text" name="mobile" required onblur="checkEmpty(this)">
+            </label>
+            <label>
+                Grade Level:
+                <select name="gradelevel" required>
+                    <option value="">Select</option>
+                    <option value="grade7">Grade 7</option>
+                    <option value="grade8">Grade 8</option>
+                    <option value="grade9">Grade 9</option>
+                    <option value="grade10">Grade 10</option>
+                </select>
+            </label>
+            <div class="radio-group">
+>>>>>>> 35a80db9863a89c5738a0624bb821c99416910b6
             <label>Intern/Extern:</label>
             <div>
                 <label><input type="radio" name="residence" value="intern" required> Intern</label>
