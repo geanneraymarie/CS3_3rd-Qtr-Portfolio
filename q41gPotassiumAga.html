@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Movie Collection</title>
+<link rel="stylesheet" href="q41gPotassiumAga.css">
+
+<script>
+function saveMovie(event){
+    event.preventDefault();
+
+    if(!confirm("Are you sure you want to add this movie?")) return;
+
+    const form = event.target;
+
+    const movie = {
+        title: form.title.value.trim(),
+        year: form.year.value,
+        genre: form.genre.value,
+        rating: form.rating.value
+    };
+
+    let movies = JSON.parse(localStorage.getItem("movies")) || [];
+
+    movies.push(movie);
+
+    localStorage.setItem("movies", JSON.stringify(movies));
+
+    alert("Movie saved!");
+    form.reset();
+
+    displayMovies();
+}
+
+function displayMovies(){
+    const movieList = document.querySelector(".movie-list");
+
+    let movies = JSON.parse(localStorage.getItem("movies")) || [];
+
+    movieList.innerHTML = "<h3>Movie List</h3>";
+
+    movies.forEach((movie, index)=>{
+
+        const stars = "★".repeat(movie.rating);
+
+        movieList.innerHTML += `
+            <p>${movie.title} (${movie.year}) - ${movie.genre}, Rating: <span class="stars">${stars}</span>
+            </p>
+        `;
+    });
+}
+
+window.onload = displayMovies;
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Add a Movie</h2>
+
+<form onsubmit="saveMovie(event)">
+
+<label>Title:</label>
+<input type="text" name="title" required>
+
+<label>Year:</label>
+<input type="number" name="year" required>
+
+<label>Genre:</label>
+<select name="genre" required>
+<option>Action</option>
+<option>Mystery</option>
+<option>Comedy</option>
+<option>Romance</option>
+<option>Fantasy</option>
+</select>
+
+<label>Rating:</label>
+
+<div class="rating">
+<input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
+<input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+<input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+<input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+<input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+</div>
+
+<button type="submit">Add Movie</button>
+
+</form>
+
+<div class="movie-list">
+<h3>Movie List</h3>
+</div>
+
+</div>
+
+</body>
+</html>
